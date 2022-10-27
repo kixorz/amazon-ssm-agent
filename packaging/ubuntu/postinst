@@ -26,6 +26,13 @@ mkdir -p /rotatingcreds
 chown aws:aws /rotatingcreds
 chmod 750 /rotatingcreds
 
+echo "Setting logging permissions"
+mkdir -p /var/log/amazon/ssm
+chown root:aws /var/log/amazon
+chmod 770 /var/log/amazon
+chown root:aws /var/log/amazon/ssm
+chmod 770 /var/log/amazon/ssm
+
 echo "Starting agent"
 if [ $(cat /proc/1/comm) = init ]
 then
