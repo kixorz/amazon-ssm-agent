@@ -23,6 +23,8 @@ fi
 
 echo "Sharing credentials"
 mkdir -p /rotatingcreds
+chown aws:aws /rotatingcreds
+chmod 750 /rotatingcreds
 
 echo "Starting agent"
 if [ $(cat /proc/1/comm) = init ]
