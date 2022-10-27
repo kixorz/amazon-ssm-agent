@@ -1,5 +1,29 @@
 #!/bin/bash
 
+echo "Adding user and group"
+if ! getent passwd aws > /dev/null; then
+    adduser --system --no-create-home --group aws --shell /sbin/nologin --gecos "aws"
+fi
+if ! getent group aws > /dev/null; then
+    addgroup --system aws
+fi
+if ! id -Gn aws | grep -qw aws; then
+    adduser aws aws
+fi
+
+echo "Checking user and group"
+if [ "`id -u aws`" -eq 0 ]; then
+    echo "The aws system user must not have uid 0 (root). Please fix this and reinstall this package." >&2
+    exit 1
+fi
+if [ "`id -g aws`" -eq 0 ]; then
+    echo "The aws system user must not have root as primary group. Please fix this and reinstall this package." >&2
+    exit 1
+fi
+
+echo "Sharing credentials"
+mkdir -p /rotatingcreds
+
 echo "Starting agent"
 if [ $(cat /proc/1/comm) = init ]
 then
