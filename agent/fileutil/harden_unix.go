@@ -29,7 +29,6 @@ const (
 
 // Harden the provided path with non-inheriting ACL for admin access only.
 func Harden(path string) (err error) {
-
 	var fi os.FileInfo
 
 	if fi, err = os.Stat(path); err != nil {
@@ -40,6 +39,10 @@ func Harden(path string) (err error) {
 		if err = os.Chmod(path, RWPermission); err != nil {
 			return
 		}
+	}
+
+	if os.Getuid() != 0 {
+		return
 	}
 
 	s := fi.Sys().(*syscall.Stat_t)
