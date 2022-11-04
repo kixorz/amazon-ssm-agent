@@ -35,8 +35,14 @@ func Harden(path string) (err error) {
 		return
 	}
 
-	if fi.Mode()&permissionMask != RWPermission {
-		if err = os.Chmod(path, RWPermission); err != nil {
+	var permission os.FileMode = RWFilePermission
+
+	if fi.IsDir() {
+		permission = RWXDirPermission
+	}
+
+	if fi.Mode()&permissionMask != permission {
+		if err = os.Chmod(path, permission); err != nil {
 			return
 		}
 	}

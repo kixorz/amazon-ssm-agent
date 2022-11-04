@@ -8,7 +8,8 @@ import (
 )
 
 const (
-	RWPermission = 0600
+	RWFilePermission = 0600
+	RWXDirPermission = 0700
 )
 
 // HardenedWriteFile calls ioutil.WriteFile and guarantees a hardened permission
@@ -32,7 +33,7 @@ func HardenedWriteFile(filename string, data []byte) (err error) {
 		return
 	}
 
-	if err = ioutil.WriteFile(filename, data, RWPermission); err != nil {
+	if err = ioutil.WriteFile(filename, data, RWFilePermission); err != nil {
 		return
 	}
 
