@@ -29,6 +29,7 @@ chmod 750 /rotatingcreds
 echo "Setting permissions"
 chown -R root:aws /etc/amazon/ssm
 
+mkdir -p /var/lib/amazon
 chown root:aws /var/lib/amazon
 chmod 750 /var/lib/amazon
 
